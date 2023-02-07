@@ -76,59 +76,61 @@ Verificar que todo funcione correctamente.
     IMPORTANTE: Previo ejecutar el server en los puertos correspondientes a la consigna, ejemplo:
     pm2 start .\src\app.js --name="others-queries"  --watch -- 8080
     pm2 start .\src\app.js --name="api-randoms"  --watch -- 8081
-    ```
-    Para esta consigna dentro de la carpeta nginx/config usamos el nginx.conf
 
-    worker_processes  1;
+            Para esta consigna dentro de la carpeta nginx/config usamos el nginx.conf
 
-events {
-worker_connections 1024;
-}
+            worker_processes  1;
 
-http {
-include mime.types;
-default_type application/octet-stream;
+            events {
+            worker_connections 1024;
+            }
 
-    upstream node_app {
-        server localhost:8080;
-    }
+            http {
+            include mime.types;
+            default_type application/octet-stream;
 
-    upstream node_app_random {
-        server localhost:8081;
-    }
+            upstream node_app {
+                server localhost:8080;
+            }
 
-    sendfile        on;
-    keepalive_timeout  65;
+            upstream node_app_random {
+                server localhost:8081;
+            }
 
-    server {
-        listen       80;
-        server_name  localhost;
+            sendfile        on;
+            keepalive_timeout  65;
 
-        location / {
-            root   "F:\CURSO CODERHOUSE\BACKEND\---------DESAFIOS-------------\Desafios\Desafio-14\src\public";
-            index  index.html index.htm;
+            server {
+                listen       80;
+                server_name  localhost;
+
+                location / {
+                    root   "F:\CURSO CODERHOUSE\BACKEND\---------DESAFIOS-------------\Desafios\Desafio-14\src\public";
+                    index  index.html index.htm;
+                }
+
+                location /info {
+                    proxy_pass http://node_app;
+                }
+
+                location /api/randoms{
+                    proxy_pass http://node_app_random;
+                }
+            }
+
         }
 
-        location /info {
-            proxy_pass http://node_app;
-        }
-
-        location /api/randoms{
-            proxy_pass http://node_app_random;
-        }
-    }
-
-}
-```
 Luego, modificar la configuración para que todas las consultas a /api/randoms sean redirigidas a
 un cluster de servidores gestionado desde nginx, repartiéndolas equitativamente entre 4
 instancias escuchando en los puertos 8082, 8083, 8084 y 8085 respectivamente.
 
-    ```
-    Para esta otra consigna dentro de nginx/config eliminar o renombrar el archivo nginx.conf, y renombrar el archivo nginxBalance.conf a nginx.conf
-    o bien reemplazar el contenido del archivo nginx.conf por el codigo escrito abajo
+```
+Para esta otra consigna dentro de nginx/config eliminar o renombrar el archivo nginx.conf, y renombrar el archivo nginxBalance.conf a nginx.conf
+o bien reemplazar el contenido del archivo nginx.conf por el codigo escrito abajo
 
-    worker_processes  1;
+# Copiar desde la linea de abajo
+
+worker_processes  1;
 
 events {
 worker_connections 1024;
@@ -184,7 +186,6 @@ IMAGENES DE EJEMPLOS EJECUTADOS POR LINEA DE COMANDOS
 ![Ejemplo2](./src/public/assets/readme/pm2FORKwatch.png)
 ![Ejemplo2](./src/public/assets/readme/cluster8081fork8080.png)
 
-
 ```
 
 Aclaracion: Se trabaja con variables de entorno, se sube el archivo .env solo a modo de ejercicio, el mismo nunca se deberia de subir a un repo por contener este mismo informacion sensible y confidencial.
@@ -193,5 +194,6 @@ En este caso, solo contiene informacion para dicho ejercicio, son datos de uso l
 
 ```
 
+```
 Autor: Matias Sanchez
 ```
