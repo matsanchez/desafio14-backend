@@ -1,0 +1,20 @@
+<h1 class="mt-2 text-center pt-4 text-light font-monospace">Resultado Random de <span class="text-danger">{{cantidad}}</span> número/s</h1>
+<h3 class="text-center pt-4 text-light font-monospace">Números del 1 al 1000</h3>
+<div class="container w-25 mt-2 p-4 align-items-center">
+<table class="table table-info text-center font-monospace">
+  <tbody>
+    <thead>
+    <tr>
+      <th scope="col">NUMERO</th>
+      <th scope="col">CANT. DE VECES</th>
+    </tr>
+  </thead>
+    {{#each result}}
+    <tr>
+      <th>{{@key}}</th>
+      <td class="text-danger">{{this}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>
