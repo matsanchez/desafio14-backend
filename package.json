@@ -20,7 +20,7 @@
     "sqlite3": "^5.1.2",
     "yargs": "^17.6.2"
   },
-  "name": "desafio-12",
+  "name": "desafio-14",
   "description": "Autor: Matias Sanchez",
   "version": "1.0.0",
   "type": "module",
